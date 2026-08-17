@@ -1,0 +1,44 @@
+name: Inventory
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  detect:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Create lab asset
+        run: Set-Content -Path C:\ramonware-ci.labasset -Value 'fixture'
+
+      - name: Run prototype and assert log
+        shell: pwsh
+        run: |
+          $marker = 'ramonware-ci.labasset'
+          $log = 'C:\Original.txt'
+          if (Test-Path $log) { Remove-Item $log -Force }
+
+          $p = Start-Process -FilePath $env:ComSpec -ArgumentList '/c', 'code\Ramonware.bat' -WorkingDirectory $env:GITHUB_WORKSPACE -PassThru
+
+          $found = $false
+          foreach ($i in 1..60) {
+            Start-Sleep -Seconds 2
+            if ((Test-Path $log) -and (Select-String -Path $log -Pattern $marker -Quiet -ErrorAction SilentlyContinue)) {
+              $found = $true
+              break
+            }
+          }
+
+          if ($p -and -not $p.HasExited) { taskkill /T /F /PID $p.Id 2>$null }
+          Get-Process mshta -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+          if (-not $found) {
+            if (Test-Path $log) { Get-Content $log }
+            throw "Original.txt does not contain $marker"
+          }
+
+          Get-Content $log
