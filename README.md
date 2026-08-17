@@ -4,7 +4,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Windows-Batch-green?style=flat-square"></a>
 <img src="https://img.shields.io/badge/-%20Made%20with%20😈-violet.svg?style=flat-square"></a>
-<img src="https://img.shields.io/badge/core-AEScrypt.exe-red?style=flat-square"></a>
+<img src="https://img.shields.io/badge/scope-detection-blue?style=flat-square"></a>
 </p>
 
 <h3 align="center"><img src="https://github.com/SegoCode/Ramonware/blob/main/assets/demo.png" height="500px"></h3>
@@ -18,7 +18,7 @@
 
 ## About
 
-RamonWare is a batch tool that uses AES encryption to simulate the process of file encryption typically used in ransomware attacks.
+RamonWare is a batch prototype that models the detection phase and lock-screen presentation of a ransomware incident. Matching files are inventoried; they are neither encrypted nor deleted.
 
 ## Features
 
@@ -33,8 +33,8 @@ cd Ramonware/code
 Ramonware.bat
 ```
 
-> [!IMPORTANT]  
-> To create a real functionality the script must download aescript cli (https://www.aescrypt.com/download/), or otherwise have it available in the system path.
+> [!IMPORTANT]
+> This prototype performs detection and inventory only. It does not apply cryptographic operations or modify target files.
 
 
 ## Download
