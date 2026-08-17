@@ -27,7 +27,7 @@ jobs:
           $found = $false
           foreach ($i in 1..60) {
             Start-Sleep -Seconds 2
-            if ((Test-Path $log) -and (Select-String -Path $log -Pattern $marker -Quiet -ErrorAction SilentlyContinue)) {
+            if ((Test-Path $log) -and (Select-String -Path $log -Pattern $marker -SimpleMatch -Quiet -ErrorAction SilentlyContinue)) {
               $found = $true
               break
             }
@@ -35,6 +35,11 @@ jobs:
 
           if ($p -and -not $p.HasExited) { taskkill /T /F /PID $p.Id 2>$null }
           Get-Process mshta -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 1
+
+          if (-not $found -and (Test-Path $log) -and (Select-String -Path $log -Pattern $marker -SimpleMatch -Quiet -ErrorAction SilentlyContinue)) {
+            $found = $true
+          }
 
           if (-not $found) {
             if (Test-Path $log) { Get-Content $log }
