@@ -13,9 +13,9 @@ FOR /R "%ROOT_PATH%" %%X in (*.labasset) DO (
     REM Encryption would happen here. Each listed file would be encrypted
     REM and the original would be deleted, so the owner could not open it.
     REM This step is not implemented: the script only finds files and logs them.
-    REM aescrypt would encrypt the file with a password; del would delete the original.
+    REM PowerShell AES (uncomment to activate). Encrypts the file; del removes the original.
     REM The password should be generated on this machine, sent to a remote endpoint, then erased from the PC. It must not stay stored locally.
-    REM aescrypt -e -p %pass% "%%X"
+    REM powershell -NoProfile -Command "function Protect-LabFile($Path,$Pass){ $aes=[Security.Cryptography.Aes]::Create(); $aes.Key=[Security.Cryptography.Rfc2898DeriveBytes]::new($Pass,[byte[]](1..16),10000).GetBytes(32); $aes.GenerateIV(); $b=[IO.File]::ReadAllBytes($Path); $c=$aes.CreateEncryptor().TransformFinalBlock($b,0,$b.Length); [IO.File]::WriteAllBytes($Path+'.aes',$aes.IV+$c) }; Protect-LabFile '%%X' '%pass%'"
     REM del "%%X"
 )
 
