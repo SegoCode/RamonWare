@@ -1,4 +1,4 @@
-# {reponame}
+# Ramonware
 
 <h3 align="center"><img src="media/demo.png"></h3>
 
@@ -10,10 +10,10 @@
 </p>
 
 ## About
-[![Top language](https://img.shields.io/github/languages/top/{username}/{reponame}?style=flat-square)](https://github.com/{username}/{reponame})
-[![Repository size](https://img.shields.io/github/repo-size/{username}/{reponame}?style=flat-square&label=repo%20size)](https://github.com/{username}/{reponame})
-[![Commit activity per year](https://img.shields.io/github/commit-activity/y/{username}/{reponame}?style=flat-square&label=commits)](https://github.com/{username}/{reponame}/graphs/commit-activity)
-[![License: MIT License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/{username}/{reponame}/blob/main/LICENSE)
+[![Top language](https://img.shields.io/github/languages/top/SegoCode/Ramonware?style=flat-square)](https://github.com/SegoCode/Ramonware)
+[![Repository size](https://img.shields.io/github/repo-size/SegoCode/Ramonware?style=flat-square&label=repo%20size)](https://github.com/SegoCode/Ramonware)
+[![Commit activity per year](https://img.shields.io/github/commit-activity/y/SegoCode/Ramonware?style=flat-square&label=commits)](https://github.com/SegoCode/Ramonware/graphs/commit-activity)
+[![License: MIT License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/SegoCode/Ramonware/blob/main/LICENSE)
 [![Bitcoin BTC](https://img.shields.io/badge/buy_me_a_coffee-BTC-F7931A?style=flat-square&logo=bitcoin&logoColor=white)](https://github.com/SegoCode/SegoCode/discussions/2)
 
 
@@ -28,8 +28,8 @@ RamonWare is a Windows batch prototype of a ransomware incident. Shows a fullscr
 ## Quick Start & Information
 
 ```shell
-git clone https://github.com/{username}/{reponame}
-cd {reponame}/code
+git clone https://github.com/SegoCode/Ramonware
+cd Ramonware/code
 Ramonware.bat
 ```
 
@@ -42,6 +42,6 @@ Ramonware.bat
 https://raw.githubusercontent.com/SegoCode/Ramonware/refs/heads/master/code/Ramonware.bat
 
 ---
-<p align="center"><a href="https://github.com/{username}/{reponame}/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo={username}/{reponame}" />
+<p align="center"><a href="https://github.com/SegoCode/Ramonware/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SegoCode/Ramonware" />
 </a></p>
