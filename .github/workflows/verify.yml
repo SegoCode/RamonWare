@@ -11,10 +11,10 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 5
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v7.0.1
 
-      - name: 🔐 Verify encryption roundtrip
+      - name: Verify encryption roundtrip
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
