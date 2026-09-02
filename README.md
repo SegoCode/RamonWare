@@ -16,12 +16,11 @@
 [![License: MIT License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/SegoCode/Ramonware/blob/main/LICENSE)
 [![Bitcoin BTC](https://img.shields.io/badge/buy_me_a_coffee-BTC-F7931A?style=flat-square&logo=bitcoin&logoColor=white)](https://github.com/SegoCode/SegoCode/discussions/2)
 
+Hi, I'm a ransomware code in batch my name is Ramon
+
 I built RamonWare as an experiment in minimum ransomware. You get a disk scan and AES on the matched files. The same .bat then opens a fullscreen HTA lock screen. People copy this file as a template and customize it... Trend Micro published a write-up on one of those forks: https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/trojan.bat.ramonware.thjoebc
 
 The logic and the HTML share one .bat, a text payload that YARA and similar rules skip because they target binaries. The PowerShell AES block and the del stay in REM, and the HTA still opens fullscreen with HTML left to edit.
-
-> [!NOTE]
-> Experimental research. I take no responsibility for damage, loss, or legal trouble that follows from running or sharing this file.
 
 ## Features
 
