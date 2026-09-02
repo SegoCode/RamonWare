@@ -1,0 +1,64 @@
+name: Verify
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  roundtrip:
+    name: Encryption roundtrip
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Run prototype and assert encrypt roundtrip
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $sandbox = Join-Path $env:RUNNER_TEMP 'ramonware-ci'
+          $probe = Join-Path $sandbox 'probe.txt'
+          $aes = "$probe.aes"
+          $log = 'C:\Original.txt'
+          $plain = [Text.Encoding]::UTF8.GetBytes('ramonware-integrity')
+          $pass = [guid]::NewGuid().ToString('N')
+
+          if (Test-Path $sandbox) { Remove-Item $sandbox -Recurse -Force }
+          New-Item -ItemType Directory -Path $sandbox -Force | Out-Null
+          [IO.File]::WriteAllBytes($probe, $plain)
+          if (Test-Path $log) { Remove-Item $log -Force }
+
+          function Replace-Exact($text, $old, $new, $expected = 1) {
+            $actual = [regex]::Matches($text, [regex]::Escape($old)).Count
+            if ($actual -ne $expected) {
+              throw "Expected $expected occurrence(s) of '$old', found $actual"
+            }
+            $text.Replace($old, $new)
+          }
+
+          $sourcePath = Join-Path $env:GITHUB_WORKSPACE 'code\Ramonware.bat'
+          $batPath = Join-Path $sandbox 'RamonWare-ci.bat'
+          $utf8 = New-Object Text.UTF8Encoding $false
+          $bat = [IO.File]::ReadAllText($sourcePath)
+          $bat = Replace-Exact $bat 'set ROOT_PATH=%homedrive%\' "set pass=$pass`r`nset ROOT_PATH=$sandbox"
+          $bat = Replace-Exact $bat '*.labasset' '*.txt'
+          $bat = Replace-Exact $bat 'REM powershell -NoProfile' 'powershell -NoProfile' 2
+          $bat = Replace-Exact $bat 'REM del "%%X"' 'del "%%X"'
+          $bat = Replace-Exact $bat 'cls' 'exit /b'
+          [IO.File]::WriteAllText($batPath, $bat, $utf8)
+
+          $process = Start-Process -FilePath $env:ComSpec -ArgumentList '/d', '/c', "`"$batPath`"" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "RamonWare-ci.bat exited with $($process.ExitCode)" }
+
+          if (-not (Test-Path $log) -or -not (Select-String -Path $log -Pattern 'probe.txt' -SimpleMatch -Quiet)) {
+            if (Test-Path $log) { Get-Content $log }
+            throw "Original.txt does not contain probe.txt"
+          }
+
+          if (-not (Test-Path $aes)) { throw "missing $aes" }
+
+          $restored = [IO.File]::ReadAllBytes($probe)
+          if ([Convert]::ToBase64String($plain) -ne [Convert]::ToBase64String($restored)) {
+            throw 'encrypt roundtrip failed'
+          }

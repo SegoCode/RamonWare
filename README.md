@@ -1,13 +1,6 @@
-<h3 align="center"><img src="https://github.com/SegoCode/Ramonware/blob/main/assets/logo.png" height="130px"></h3>
-<p align="center">Hi, I'm a ransomware code in batch my name is Ramon</p>
+# {reponame}
 
-<p align="center">
-<img src="https://img.shields.io/badge/Windows-Batch-green?style=flat-square"></a>
-<img src="https://img.shields.io/badge/-%20Made%20with%20😈-violet.svg?style=flat-square"></a>
-<img src="https://img.shields.io/badge/core-AEScrypt.exe-red?style=flat-square"></a>
-</p>
-
-<h3 align="center"><img src="https://github.com/SegoCode/Ramonware/blob/main/assets/demo.png" height="500px"></h3>
+<h3 align="center"><img src="media/demo.png"></h3>
 
 <p align="center">
   <a href="#about">About</a> •
@@ -17,31 +10,38 @@
 </p>
 
 ## About
+[![Top language](https://img.shields.io/github/languages/top/{username}/{reponame}?style=flat-square)](https://github.com/{username}/{reponame})
+[![Repository size](https://img.shields.io/github/repo-size/{username}/{reponame}?style=flat-square&label=repo%20size)](https://github.com/{username}/{reponame})
+[![Commit activity per year](https://img.shields.io/github/commit-activity/y/{username}/{reponame}?style=flat-square&label=commits)](https://github.com/{username}/{reponame}/graphs/commit-activity)
+[![License: MIT License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/{username}/{reponame}/blob/main/LICENSE)
+[![Bitcoin BTC](https://img.shields.io/badge/buy_me_a_coffee-BTC-F7931A?style=flat-square&logo=bitcoin&logoColor=white)](https://github.com/SegoCode/SegoCode/discussions/2)
 
-RamonWare is a batch tool that uses AES encryption to simulate the process of file encryption typically used in ransomware attacks.
+
+RamonWare is a Windows batch prototype of a ransomware incident. Shows a fullscreen lock screen (HTA). Encryption stays commented. The script does not encrypt or delete files unless you uncomment the PowerShell AES block. https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/trojan.bat.ramonware.thjoebc
 
 ## Features
 
-- Safe Mode for testing: Includes a 'Safe Mode' feature for development and testing environments that prevents actual data loss
-- Self-contained batch: Designed to run from the command line with minimal setup
+- Lock screen: opens a fullscreen HTA with a WannaCry-style note after the scan.
+
+- Single file: `code/Ramonware.bat` holds the scan and the HTML. No extra install.
 
 ## Quick Start & Information
 
 ```shell
-git clone https://github.com/SegoCode/NetfixHistoryViewer
-cd Ramonware/code
+git clone https://github.com/{username}/{reponame}
+cd {reponame}/code
 Ramonware.bat
 ```
 
-> [!IMPORTANT]  
-> To create a real functionality the script must download aescript cli (https://www.aescrypt.com/download/), or otherwise have it available in the system path.
-
+> [!CAUTION]
+> The scan starts at `%homedrive%\` and walks every folder.
+> Uncommenting the PowerShell AES lines and `del` encrypts the file and removes the original.
 
 ## Download
 
-Provide a direct link to where users can download the application
+https://raw.githubusercontent.com/SegoCode/Ramonware/refs/heads/master/code/Ramonware.bat
 
 ---
-<p align="center"><a href="https://github.com/SegoCode/RepositoryTemplate/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SegoCode/RepositoryTemplate" />
+<p align="center"><a href="https://github.com/{username}/{reponame}/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo={username}/{reponame}" />
 </a></p>
