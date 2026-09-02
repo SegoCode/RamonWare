@@ -17,7 +17,9 @@
 [![Bitcoin BTC](https://img.shields.io/badge/buy_me_a_coffee-BTC-F7931A?style=flat-square&logo=bitcoin&logoColor=white)](https://github.com/SegoCode/SegoCode/discussions/2)
 
 
-RamonWare is a Windows batch prototype of a ransomware incident. Shows a fullscreen lock screen (HTA). Encryption stays commented. The script does not encrypt or delete files unless you uncomment the PowerShell AES block. https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/trojan.bat.ramonware.thjoebc
+RamonWare is a Windows batch prototype of a ransomware incident. Shows a fullscreen lock screen (HTA). Encryption stays commented. The script does not encrypt or delete files unless you uncomment the PowerShell AES block. 
+
+Fork of Ramonware: https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/trojan.bat.ramonware.thjoebc
 
 ## Features
 
