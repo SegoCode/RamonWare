@@ -11,12 +11,18 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v7.0.1
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v7.0.1
 
-      - name: Run prototype and assert encrypt roundtrip
+      - name: 🔐 Verify encryption roundtrip
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          trap {
+            Write-Host "::error::❌ Verification failed: $($_.Exception.Message)"
+            exit 1
+          }
+
           $sandbox = Join-Path $env:RUNNER_TEMP 'ramonware-ci'
           $probe = Join-Path $sandbox 'probe.txt'
           $aes = "$probe.aes"
@@ -28,6 +34,7 @@ jobs:
           New-Item -ItemType Directory -Path $sandbox -Force | Out-Null
           [IO.File]::WriteAllBytes($probe, $plain)
           if (Test-Path $log) { Remove-Item $log -Force }
+          Write-Host '✅ Test file and random password created'
 
           function Replace-Exact($text, $old, $new, $expected = 1) {
             $actual = [regex]::Matches($text, [regex]::Escape($old)).Count
@@ -47,18 +54,24 @@ jobs:
           $bat = Replace-Exact $bat 'REM del "%%X"' 'del "%%X"'
           $bat = Replace-Exact $bat 'cls' 'exit /b'
           [IO.File]::WriteAllText($batPath, $bat, $utf8)
+          Write-Host '✅ Temporary batch prepared in the sandbox'
 
           $process = Start-Process -FilePath $env:ComSpec -ArgumentList '/d', '/c', "`"$batPath`"" -Wait -PassThru
           if ($process.ExitCode -ne 0) { throw "RamonWare-ci.bat exited with $($process.ExitCode)" }
+          Write-Host '✅ Batch encryption and decryption completed'
 
           if (-not (Test-Path $log) -or -not (Select-String -Path $log -Pattern 'probe.txt' -SimpleMatch -Quiet)) {
             if (Test-Path $log) { Get-Content $log }
             throw "Original.txt does not contain probe.txt"
           }
+          Write-Host '✅ Test file found in Original.txt'
 
           if (-not (Test-Path $aes)) { throw "missing $aes" }
+          Write-Host '✅ Encrypted file created'
 
           $restored = [IO.File]::ReadAllBytes($probe)
           if ([Convert]::ToBase64String($plain) -ne [Convert]::ToBase64String($restored)) {
             throw 'encrypt roundtrip failed'
           }
+          Write-Host '✅ Decrypted file matches the original'
+          Write-Host '🎉 RamonWare encryption roundtrip passed'
