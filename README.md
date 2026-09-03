@@ -41,9 +41,8 @@ cd Ramonware/code
 Ramonware.bat
 ```
 
-> [!CAUTION]
-> The scan starts at `%homedrive%\` and walks every folder.
-> Uncommenting the PowerShell AES lines and `del` encrypts the file and removes the original.
+The scan starts at `%homedrive%\` and walks every folder.
+Uncommenting the PowerShell AES lines and `del` encrypts the file and removes the original.
 
 ## Download
 
